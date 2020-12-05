@@ -1,43 +1,65 @@
 import * as React from "react";
 import { useEffect, useState } from "react";
-import HighLightNotification from "../../Components/HighLightNotification";
-import IssueList from "../../Components/IssueList";
 import { IIssue } from "../../typings";
 // Module scope css
-import styles from './App.module.css';
+import "antd/dist/antd.css";
+import { List, Skeleton } from "antd";
+import { parseGitHubLinkHeader } from "../../Utils";
 
 const DEFAULT_PAGE_SIZE = 5;
+const DEFAULT_PAGINATION = {
+  curr: 1,
+  total: 1,
+};
 
 function App() {
   const [activePageIssues, setActivePageIssues] = useState<IIssue[]>([]);
-  const [activePageNumber, setActivePageNumber] = useState(1);
+  const [pagination, setPagination] = useState(DEFAULT_PAGINATION);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     async function fetchIssues() {
       setIsLoading(true);
-      const data = await fetch(
-        `https://api.github.com/repos/rails/rails/issues?page=${activePageNumber}&per_page=${DEFAULT_PAGE_SIZE}`
-      ).then((res) => res.json());
+      const res = await fetch(
+        `https://api.github.com/repos/rails/rails/issues?page=${pagination.curr}&per_page=${DEFAULT_PAGE_SIZE}`
+      );
+      const parsedValue = parseGitHubLinkHeader(res.headers.get("link"));
+      setPagination({
+        ...pagination,
+        total: parsedValue.last?.page || pagination.total,
+      });
+      const data = await res.json();
+
       setIsLoading(false);
       setActivePageIssues(data);
     }
 
     fetchIssues();
-  }, [activePageNumber]);
+  }, [pagination.curr, pagination.total]);
 
   return (
     <React.Fragment>
-      <HighLightNotification/>
-      {isLoading ? "Loading..." : <IssueList issues={activePageIssues} />}
-      <button
-        className={styles['next-btn']}
-        onClick={() => {
-          setActivePageNumber(activePageNumber + 1);
+      <List
+        dataSource={activePageIssues}
+        renderItem={(item) => (
+          <Skeleton loading={isLoading}>
+            <List.Item>{item.title}</List.Item>
+          </Skeleton>
+        )}
+        loading={isLoading}
+        itemLayout="vertical"
+        pagination={{
+          position: "bottom",
+          total: pagination.total,
+          current: pagination.curr,
+          showSizeChanger: false,
+          defaultPageSize: DEFAULT_PAGE_SIZE,
+          onChange: (page, _pageSize) => {
+            if (page !== pagination.curr)
+              setPagination({ ...pagination, curr: page });
+          },
         }}
-      >
-        next
-      </button>
+      />
     </React.Fragment>
   );
 }
