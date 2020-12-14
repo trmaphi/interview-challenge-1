@@ -1,6 +1,15 @@
 ## Technical decision
 
 ### How did you implement styling? What are the pros and cons? Why did you chose this approach?
+Global styled
+
+Pros:
+- Easy use when theming provided by UI framework like ant-design
+- 
+Cons:
+- Hard to why 
+
+
 ### How did you share state between components? What are the pros and cons? Why did you chose this approach?
 ### Did you use React hooks? Why or why not?
 ### What would you improve?
@@ -11,18 +20,6 @@
 
 In the project directory, you can run:
 
-### `yarn start`
-
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
-
-### `yarn test`
-
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
 ### `yarn build`
 
@@ -37,3 +34,17 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 ### `yarn deploy`
 
 This project is used firebase hosting to deploy 
+
+```
+# ...some firebase setup https://firebase.google.com/docs/hosting/quickstart
+yarn build
+yarn deploy
+```
+
+### `yarn start`
+
+Runs the app in the development mode.<br />
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+
+The page will reload if you make edits.<br />
+You will also see any lint errors in the console.
