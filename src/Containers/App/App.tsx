@@ -3,8 +3,9 @@ import { useEffect, useState } from "react";
 import { IIssue } from "../../typings";
 // Module scope css
 import "antd/dist/antd.css";
-import { List, Skeleton } from "antd";
+import { List, Skeleton, Anchor } from "antd";
 import { parseGitHubLinkHeader } from "../../Utils";
+const { Link } = Anchor;
 
 const DEFAULT_PAGE_SIZE = 5;
 const DEFAULT_PAGINATION = {
@@ -60,6 +61,12 @@ function App() {
           },
         }}
       />
+      <Anchor>
+        <Link
+          href={"https://github.com/trmaphi/interview-challenge-1"}
+          title="Github Link"
+        />
+      </Anchor>
     </React.Fragment>
   );
 }
