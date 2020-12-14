@@ -1,19 +1,42 @@
 ## Technical decision
 
 ### How did you implement styling? What are the pros and cons? Why did you chose this approach?
-Global styled
 
-Pros:
+Global styles
+
+Props:
 - Easy use when theming provided by UI framework like ant-design
-- 
+- Don't message with React `style` props, so clearer.
 Cons:
-- Hard to why 
+- Hard to write custom components with styles.
 
+I know about scoped css (using hash in className), but this is a small project and we don't need it.
 
 ### How did you share state between components? What are the pros and cons? Why did you chose this approach?
+
+Redux state
+
+Props:
+- Easly to scale of and extend
+- No need to render to use data from State
+Cons:
+- Require setup
+- Require HOC (higher-order-component) for "Container" Component
 ### Did you use React hooks? Why or why not?
+
+Yes, I did.
+
+Because, I want my code shorter and create React Components as functions.
+
 ### What would you improve?
+
+I would create a stage with Redux in LocalStorage .
+
 ### How did you prevent wasted renders?
+
+My reference is: https://www.freecodecamp.org/news/how-to-identify-and-resolve-wasted-renders-in-react-cc4b1e910d10/
+
+But I haven't found the wasted renders in current implementation yet.
 ### How did you handle side-effects (e.g. data fetching)? What are the pros and cons? Why did you chose this approach?
 
 ## Available Scripts
